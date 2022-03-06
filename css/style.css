@@ -132,8 +132,8 @@ input:focus {
     display: none;
     flex-direction: row;
     flex-wrap: wrap;
-    justify-content: space-between;
-    height: 340px; 
+    justify-content: space-between;   
+    height: auto;
     width: 670px;   
     background-color:#3282F7;   
     color: #FFFFFF;
@@ -143,8 +143,7 @@ input:focus {
     cursor: pointer;
     margin: 0;        
     z-index: 3;
-    position: relative;
-    overflow: hidden;
+    position: relative;  
 }
 .ingredient-item {
     font-family: 'Lato', sans-serif;

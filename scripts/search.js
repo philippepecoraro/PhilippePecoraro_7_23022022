@@ -1,4 +1,5 @@
-import { recipesIdTab, recipesNameTab, ingredientsTab, recipesDescriptionTab } from "../scripts/index.js"
+import { removeRecipes } from "../scripts/index.js"
+import { recipes } from "../data/recipes.js";
 
 const ingredientsSelect = document.querySelector(".ingredients-select");
 const ingredientsDropdown = document.querySelector(".ingredients-dropdown");
@@ -32,4 +33,47 @@ function dropdownMenuClose(e) {
 }
 dropdownClose.addEventListener("click", dropdownMenuClose)
 
+// 
+let principalSearchTab = [];
+function principalSearch() {
+    principalSearchTab = [];
+    recipesData.map(recipe => {
+        if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+            principalSearchTab.push(recipe.name, recipe.id);
+        }
+        else if (recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+            principalSearchTab.push(recipe.description, recipe.id);
+        } else {
+            recipe.ingredients.forEach(value => {
+                if (value.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+                    principalSearchTab.push(value.ingredient, recipe.id);
+                }
+            })
+        }
+    })
+    recipesAfterSort(principalSearchTab);
+}
 
+const recipesData = recipes;
+let recipesAfterSortTab = [];
+function recipesAfterSort(principalSearchTab) {
+    recipesAfterSortTab = [];
+    principalSearchTab.forEach(item => {
+        if (!isNaN(item)) {
+            recipesData.forEach(value => {
+                if (value.id === item) {
+                    recipesAfterSortTab.push(value)
+                }
+            })
+        }
+    })
+    removeRecipes(recipesAfterSortTab);
+}
+
+searchBar.addEventListener("input", () => {
+    if (searchBar.value.length > 2) {
+        principalSearch()
+    }
+})
+
+export { recipesAfterSortTab };

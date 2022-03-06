@@ -1,14 +1,13 @@
 import { recipes } from "../data/recipes.js";
 
 const recipesData = recipes;
-console.log('recipesData:', recipesData)
-
 const cardDeck = document.querySelector(".card-deck");
-const card1 = document.querySelector(".col-card");
+const card1 = document.querySelectorAll(".col-card");
 let ingredientsTab = [];
 let recipesIdTab = [];
 let recipesNameTab = [];
 let recipesDescriptionTab = [];
+
 
 function recipesFactory(data) {
     const { id, name, servings, ingredients,
@@ -43,7 +42,7 @@ function recipesFactory(data) {
         const div2 = document.createElement('div');
         div2.className = "card-text text-left-card";
 
-        formatIngredients(ingredients, div2, id);
+        formatIngredients(ingredients, div2);
 
         const div3 = document.createElement('div');
         div3.className = "card-text text-right-card";
@@ -62,23 +61,33 @@ function recipesFactory(data) {
     }
     return { getRecipeCardDom };
 }
-let recipesIngredientsTab = [];
-recipesData.forEach(recipe => {
-    const displayData = document.querySelector(".display-data");
-    recipesIdTab.push(recipe.id);
-    recipesNameTab.push(recipe.name);
-    recipesIngredientsTab.push(recipe.ingredients)
-    recipesDescriptionTab.push(recipe.description);
-    const recipeModel = recipesFactory(recipe);
-    const cardDom = recipeModel.getRecipeCardDom();
-    cardDeck.appendChild(cardDom);
-})
+displayRecipes(recipesData);
+displayIngredients();
 
-function formatIngredients(ingredients, div2, id) {
-    let dataId = -1;
+function removeRecipes(recipesData) {
+    const card1 = document.querySelectorAll(".col-card");
+    card1.forEach(item => {
+        item.remove();
+    })
+    const ingredientItem = document.querySelectorAll(".ingredient-item");
+    ingredientItem.forEach(item => {
+        item.remove();
+    })
+    ingredientsTab = [];
+    displayRecipes(recipesData);
+    displayIngredients()
+}
+function displayRecipes(recipesData) {
+    recipesData.forEach(recipe => {
+        const recipeModel = recipesFactory(recipe);
+        const cardDom = recipeModel.getRecipeCardDom();
+        cardDeck.appendChild(cardDom);
+    })
+}
+function formatIngredients(ingredients, div2) {
+
     for (let ingredient of ingredients) {
         ingredientsTab.push(ingredient.ingredient);
-        dataId++;
 
         if (ingredient.quantity === undefined) {
             ingredient.quantity = "";
@@ -86,7 +95,7 @@ function formatIngredients(ingredients, div2, id) {
         if (ingredient.unit === undefined) {
             ingredient.unit = "";
         }
-        if (ingredient.unit === "cuillères à soupe") {
+        if (ingredient.unit === "cuillères à soupe" || "cuillères à café") {
             ingredient.unit = "cuillères";
         }
         if (ingredient.unit === "grammes") {
@@ -96,16 +105,21 @@ function formatIngredients(ingredients, div2, id) {
         p.innerHTML = `${ingredient.ingredient}:<span>
         ${ingredient.quantity}${ingredient.unit}</span>`;
         div2.appendChild(p);
+    }
+}
 
+function displayIngredients() {
+    let uniqueIngredients = [...new Set(ingredientsTab)]
+    for (let ingredient1 of uniqueIngredients) {
         const ingredientsMenu = document.querySelector(".ingredients-menu");
         const div = document.createElement("div");
         div.className = "ingredient-item";
-        div.setAttribute("data-id", `${id}${dataId}`);
-        div.innerHTML = ` ${ingredient.ingredient}`;
+        div.innerHTML = ` ${ingredient1}`;
         ingredientsMenu.appendChild(div);
     }
 }
-export { recipesIdTab, recipesNameTab, ingredientsTab, recipesDescriptionTab };
+
+export { removeRecipes };
 
 
 
