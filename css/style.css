@@ -6,12 +6,10 @@ main {
     font-family: 'DM Sans', sans-serif;
     font-weight: 700;
     font-size: 36px;
-    color: #D04F4F;   
-    border: 1px green solid;
+    color: #D04F4F;      
 }
-.logo-image {
-   border: 1px red solid;
-   margin-top: 40px;
+.logo-image { 
+    margin-top: 40px;
 }
 .search-bar {
     background-color: #E7E7E7;
@@ -47,9 +45,10 @@ input:focus {
     right: 20px;
     margin-left: 10px;
     width: 32px;
-    height: 32px;
-    border: 1px black solid;    
+    height: 32px;  
     padding: 0;
+    border: 0;
+    background-color: #E7E7E7;
 }
 .ingredients-selection, .appliances-selection, .ustensils-selection {    
      width: 170px;
@@ -213,15 +212,29 @@ input:focus {
 .ingredient-item p, .appliance-item p, .ustensil-item p {
     margin-bottom: 5px;
 }
-.ingredient-tag, .appliance-tag, .ustensil-tag { 
+.ingredient-tag, .appliance-tag, .ustensil-tag {   
     color: #FFFFFF;
     background-color:#3282F7; 
     margin-bottom: 20px;
     border-radius: 5px; 
-    width: auto; 
+    width: 170px; 
     min-height: 50px;
     padding-left: 20px;
     position: relative;
+}
+.ingredient-tag, .appliance-tag, .ustensil-tag {
+    margin-right: 20px;
+}
+.tags-display {
+    display: none;
+    color: #FFFFFF;  
+    margin-bottom: 20px;
+    border-radius: 5px; 
+    width: auto; 
+    min-height: 50px;   
+    position: relative;
+    padding: 0;
+    margin: 0;
 }
 .appliance-tag {
     background-color: #68D9A4;

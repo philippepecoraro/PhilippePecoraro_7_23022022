@@ -1,5 +1,7 @@
 import { recipes } from "../data/recipes.js";
-import { ingredientSortedArray, applianceSortedArray, ustensilSortedArray } from "../scripts/search.js";
+import {
+    ingredientSortedArray, applianceSortedArray, ustensilSortedArray
+} from "../scripts/search.js";
 
 const recipesData = recipes;
 const cardDeck = document.querySelector(".card-deck");
@@ -12,12 +14,14 @@ let uniqueAppliances = [];
 let ustensilsTab = [];
 let ustensilsTab2 = [];
 let uniqueUstensils = [];
-const ingredientsSelection = document.querySelector(".ingredients-selection");
-const ingredientsDropdown = document.querySelector(".ingredients-dropdown");
-const appliancesSelection = document.querySelector(".appliances-selection");
-const appliancesDropdown = document.querySelector(".appliances-dropdown");
-const ustensilsDropdown = document.querySelector(".ustensils-dropdown");
-const ustensilsSelection = document.querySelector(".ustensils-selection");
+let appTab = [];
+let ingTab = [];
+let ustTab = [];
+const searchBar2 = document.querySelector("#searchbar2");
+const searchBar3 = document.querySelector("#searchbar3");
+const searchBar4 = document.querySelector("#searchbar4");
+const tagsDisplay = document.querySelector(".tags-display");
+
 
 // Recipes construct
 function recipesFactory(data) {
@@ -76,12 +80,27 @@ function recipesFactory(data) {
     return { getRecipeCardDom };
 }
 recipesDisplay(recipesData);
-ingredientsPrincipalSearchDisplay();
-appliancesPrincipalSearchDisplay();
-ustensilsPrincipalSearchDisplay();
+ingredientsPrincipalSearchDisplay(ingTab, recipesData);
+appliancesPrincipalSearchDisplay(appTab, recipesData);
+ustensilsPrincipalSearchDisplay(ustTab, recipesData);
+
 
 // Remove recipes data after search
-function removeRecipes(recipesData) {
+function removeRecipes(recipesData, elemt, nb) {
+    console.log('recipesData:', recipesData)
+    switch (nb) {
+        case 1:
+            ingTab.push(elemt.value);
+            break;
+        case 2:
+            appTab.push(elemt.value);
+            break;
+        case 3:
+            ustTab.push(elemt.value);
+            break;
+    }
+
+    //  console.log('recipesData:', recipesData)
     const card1 = document.querySelectorAll(".col-card");
     card1.forEach(item => {
         item.remove();
@@ -104,9 +123,9 @@ function removeRecipes(recipesData) {
     ustensilsTab = [];
     ustensilsTab2 = [];
     recipesDisplay(recipesData);
-    ingredientsPrincipalSearchDisplay()
-    appliancesPrincipalSearchDisplay();
-    ustensilsPrincipalSearchDisplay();
+    ingredientsPrincipalSearchDisplay(ingTab, recipesData)
+    appliancesPrincipalSearchDisplay(appTab, recipesData);
+    ustensilsPrincipalSearchDisplay(ustTab, recipesData);
 }
 
 // Call the recipes construct
@@ -144,22 +163,29 @@ function formatIngredients(ingredients, div2) {
 }
 
 // Remove duplicate ingredients
-function ingredientsPrincipalSearchDisplay() {
+function ingredientsPrincipalSearchDisplay(ingTab, recipesData) {
+    console.log("fonction ingredientsPrincipalsearchDisplay")
+    if (ingTab.length > 0) {
+        ingTab.forEach(elem => {
+            ingredientsTab = ingredientsTab.filter(ele => ele !== elem);
+        })
+    }
     uniqueIngredients = [...new Set(ingredientsTab)]
-    ingredientsDisplay(uniqueIngredients);
+    ingredientsDisplay(uniqueIngredients, recipesData);
 }
 
 // Remove ingredients after secondary Search
 function ingredientsSecondarySearchDisplay(ingredientSearchTab) {
+    console.log("fonction ingredientsSecondarySearchDisplay")
     const ingredientItem = document.querySelectorAll(".ingredient-item");
     ingredientItem.forEach(item => {
         item.remove();
     })
-    ingredientsDisplay(ingredientSearchTab);
+    ingredientsDisplay(ingredientSearchTab, recipesData);
 }
 
 // Ingredients display
-function ingredientsDisplay(sortedIngredients) {
+function ingredientsDisplay(sortedIngredients, recipesData) {
     sortedIngredients.forEach(ingredient => {
         const ingredientsMenu = document.querySelector(".ingredients-menu");
         const div = document.createElement("div");
@@ -186,29 +212,48 @@ function ingredientTagDisplay(item) {
     div1.innerHTML = `${item.value}`;
     const div2 = document.createElement("div");
     div2.className = "ingredient-close";
-    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" class="closeTag"/>`;
+    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" class="ingredient-tag-close"/>`;
+    tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
-    ingredientsSelection.insertBefore(div, ingredientsDropdown);
+    document.querySelector(".tags-display").style.display = "flex";
+    document.querySelectorAll(".ingredient-tag-close").forEach((item1) => item1.addEventListener("click", function (e) {
+        ingredientTagClose();
+    }))
+}
+
+// Close ingredients tags
+function ingredientTagClose() {
+    document.querySelectorAll(".ingredient-tag").forEach(item => {
+        item.remove();
+    });
+    ingTab = [];
+    searchBar2.value = "";
+    console.log('searchBar2.value:', searchBar2.value)
+    removeRecipes(recipes);
 }
 
 // Remove duplicate appliances
-function appliancesPrincipalSearchDisplay() {
+function appliancesPrincipalSearchDisplay(appTab, recipesData) {
+    if (appTab.length > 0) {
+        appTab.forEach(elem => {
+            appliancesTab = appliancesTab.filter(ele => ele !== elem);
+        })
+    }
     uniqueAppliances = [...new Set(appliancesTab)];
-    appliancesDisplay(uniqueAppliances);
+    appliancesDisplay(uniqueAppliances, recipesData);
 }
-
 // Remove appliances after secondary Search
 function appliancesSecondarySearchDisplay(applianceSearchTab) {
     const applianceItem = document.querySelectorAll(".appliance-item");
     applianceItem.forEach(item => {
         item.remove();
     })
-    appliancesDisplay(applianceSearchTab);
+    appliancesDisplay(applianceSearchTab, recipesData);
 }
 
 // Appliances display
-function appliancesDisplay(sortedAppliances) {
+function appliancesDisplay(sortedAppliances, recipesData) {
     sortedAppliances.forEach(appliance => {
         const appliancesMenu = document.querySelector(".appliances-menu");
         const div = document.createElement("div");
@@ -221,13 +266,14 @@ function appliancesDisplay(sortedAppliances) {
     applianceItem.forEach(item => {
         item.addEventListener("click", function (e) {
             applianceSortedArray(recipesData, item);
-            applianceTagDisplay(item);
+            applianceTagDisplay(recipesData, item, sortedAppliances);
         })
     })
 }
 
 // Appliance tag display
-function applianceTagDisplay(item) {
+function applianceTagDisplay(appliancesRecipes, item, sortedAppliances) {
+    // if (!applianceTagOn) {
     const div = document.createElement("div");
     div.className = "appliance-tag";
     const div1 = document.createElement("div");
@@ -235,21 +281,40 @@ function applianceTagDisplay(item) {
     div1.innerHTML = `${item.value}`;
     const div2 = document.createElement("div");
     div2.className = "appliance-close";
-    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" />`;
+    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" class="appliance-close-tag" />`;
+    tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
-    appliancesSelection.insertBefore(div, appliancesDropdown);
+    document.querySelector(".tags-display").style.display = "flex";
+    document.querySelectorAll(".appliance-close-tag").forEach((item2) => item2.addEventListener("click", function (e) {
+        applianceTagClose();
+    }))
+}
+
+// Close appliances tags
+function applianceTagClose() {
+    document.querySelectorAll(".appliance-tag").forEach(item => {
+        item.remove();
+    })
+    appTab = [];
+    searchBar3.value = "";
+    removeRecipes(recipes);
 }
 
 // Remove duplicate ustensils
-function ustensilsPrincipalSearchDisplay() {
+function ustensilsPrincipalSearchDisplay(ustTab, recipesData) {
     for (let ustensilsValue of ustensilsTab) {
         for (let ustensilValue of ustensilsValue) {
             ustensilsTab2.push(ustensilValue);
         }
     }
+    if (ustTab.length > 0) {
+        ustTab.forEach(elem => {
+            ustensilsTab2 = ustensilsTab2.filter(ele => ele !== elem);
+        })
+    }
     uniqueUstensils = [...new Set(ustensilsTab2)];
-    ustensilsDisplay(uniqueUstensils);
+    ustensilsDisplay(uniqueUstensils, recipesData);
 }
 
 // Remove ustensils after secondary Search
@@ -258,11 +323,11 @@ function ustensilsSecondarySearchDisplay(ustensilSearchTab) {
     ustensilItem.forEach(item => {
         item.remove();
     })
-    ustensilsDisplay(ustensilSearchTab);
+    ustensilsDisplay(ustensilSearchTab, recipesData);
 }
 
 // Ustensils display
-function ustensilsDisplay(sortedUstensils) {
+function ustensilsDisplay(sortedUstensils, recipesData) {
     sortedUstensils.forEach(ustensil => {
         const ustensilsMenu = document.querySelector(".ustensils-menu");
         const div = document.createElement("div");
@@ -275,13 +340,13 @@ function ustensilsDisplay(sortedUstensils) {
     ustensilItem.forEach(item => {
         item.addEventListener("click", function (e) {
             ustensilSortedArray(recipesData, item);
-            ustensilTagDisplay(item);
+            ustensilTagDisplay(recipesData, item, sortedUstensils);
         })
     })
 }
 
 // Ustensils tag display
-function ustensilTagDisplay(item) {
+function ustensilTagDisplay(ustensilsRecipes, item, sortedUstensils) {
     const div = document.createElement("div");
     div.className = "ustensil-tag";
     const div1 = document.createElement("div");
@@ -289,10 +354,25 @@ function ustensilTagDisplay(item) {
     div1.innerHTML = `${item.value}`;
     const div2 = document.createElement("div");
     div2.className = "ustensil-close";
-    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" />`;
+    div2.innerHTML = `<img src="assets/icons/tag-close.svg" alt="close" class="ustensil-tag-close"/>`;
+    tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
-    ustensilsSelection.insertBefore(div, ustensilsDropdown);
+    document.querySelector(".tags-display").style.display = "flex";
+    document.querySelectorAll(".ustensil-tag-close").forEach((item3) => item3.addEventListener("click", function (e) {
+        ustensilTagClose();
+    }))
+}
+
+// Close ustensils tags
+function ustensilTagClose() {
+    const ustensilTagClose = document.querySelector(".ustensilCloseTag");
+    document.querySelectorAll(".ustensil-tag").forEach(item => {
+        item.remove();
+    })
+    ustTab = [];
+    searchBar4.value = "";
+    removeRecipes(recipes);
 }
 
 export {
