@@ -142,19 +142,19 @@ searchBar.addEventListener("input", () => {
 
 // Ingredients search
 let ingredientSearchTab = [];
-function ingredientSearch() {
+function ingredientSearch(principalSearchTab) {
     ingredientSearchTab = [];
     uniqueIngredients.map(ingredient => {
         if (ingredient.toLowerCase().lastIndexOf(searchBar2.value.toLowerCase()) !== -1) {
             ingredientSearchTab.push(ingredient);
         }
     })
-    ingredientsSecondarySearchDisplay(ingredientSearchTab);
+    ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab);
 }
 const searchBar2 = document.querySelector("#searchbar2");
 searchBar2.addEventListener("input", () => {
     if (searchBar2.value.length > 2) {
-        ingredientSearch();
+        ingredientSearch(principalSearchTab);
     }
 })
 
@@ -167,7 +167,7 @@ function applianceSearch() {
             applianceSearchTab.push(appliance);
         }
     })
-    appliancesSecondarySearchDisplay(applianceSearchTab);
+    appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab);
 }
 const searchBar3 = document.querySelector("#searchbar3");
 searchBar3.addEventListener("input", () => {
@@ -185,7 +185,7 @@ function ustensilSearch() {
             ustensilSearchTab.push(ustensil);
         }
     })
-    ustensilsSecondarySearchDisplay(ustensilSearchTab);
+    ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab);
 }
 
 const searchBar4 = document.querySelector("#searchbar4");
@@ -215,7 +215,6 @@ function ingredientSortedArray(recipesData, item) {
             })
         }
     })
-    //  console.log('ingredientRecipesAfterSortTab:', ingredientRecipesAfterSortTab)
     removeRecipes(ingredientRecipesAfterSortTab, item, 1);
 }
 
