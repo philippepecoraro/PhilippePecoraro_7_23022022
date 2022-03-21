@@ -1,7 +1,7 @@
 import {
     removeRecipes, uniqueIngredients, uniqueAppliances, uniqueUstensils,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    ustensilsSecondarySearchDisplay
+    ustensilsSecondarySearchDisplay, tagClose
 } from "../scripts/index.js"
 import { recipes } from "../data/recipes.js";
 
@@ -119,7 +119,6 @@ function principalSearch() {
     recipesData.map(recipe => {
         if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
             principalSearchTab.push(recipe);
-
         }
         else if (recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
             principalSearchTab.push(recipe);
@@ -133,10 +132,12 @@ function principalSearch() {
     })
     removeRecipes(principalSearchTab);
 }
-
+// Listener on principal search bar
 searchBar.addEventListener("input", () => {
     if (searchBar.value.length > 2) {
         principalSearch()
+    } if (searchBar.value.length === 0) {
+        tagClose();
     }
 })
 
@@ -151,6 +152,7 @@ function ingredientSearch(principalSearchTab) {
     })
     ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab);
 }
+// Listener on ingredient field
 const searchBar2 = document.querySelector("#searchbar2");
 searchBar2.addEventListener("input", () => {
     if (searchBar2.value.length > 2) {
@@ -169,6 +171,7 @@ function applianceSearch() {
     })
     appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab);
 }
+// Listener on appliance field
 const searchBar3 = document.querySelector("#searchbar3");
 searchBar3.addEventListener("input", () => {
     if (searchBar3.value.length > 2) {
@@ -187,7 +190,7 @@ function ustensilSearch() {
     })
     ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab);
 }
-
+// Listener on ustensil field
 const searchBar4 = document.querySelector("#searchbar4");
 searchBar4.addEventListener("input", () => {
     if (searchBar4.value.length > 2) {

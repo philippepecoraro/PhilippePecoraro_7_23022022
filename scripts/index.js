@@ -375,6 +375,7 @@ function ustensilTagDisplay(item) {
     }))
 }
 
+// Close tags and initialize the fields
 function tagClose() {
     document.querySelectorAll(".ingredient-tag").forEach(item => {
         item.remove();
@@ -400,7 +401,7 @@ function tagClose() {
 export {
     removeRecipes, uniqueIngredients, uniqueAppliances,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    uniqueUstensils, ustensilsSecondarySearchDisplay
+    uniqueUstensils, ustensilsSecondarySearchDisplay, tagClose
 };
 
 
