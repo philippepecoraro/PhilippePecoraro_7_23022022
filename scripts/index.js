@@ -59,12 +59,11 @@ function recipesFactory(data) {
 
         const div2 = document.createElement('div');
         div2.className = "card-text text-left-card";
-
         formatIngredients(ingredients, div2);
 
         const div3 = document.createElement('div');
         div3.className = "card-text text-right-card";
-        div3.innerHTML = `<p>${description}</p>`;
+        formatDescription(description, div3);
 
         document.querySelector(".ingredients-selection").style.display = "block";
         document.querySelector(".appliances-selection").style.display = "block";
@@ -138,11 +137,11 @@ function emptyRecipeDisplay() {
     document.querySelector(".empty-recipe").style.display = "block";
     document.querySelector(".empty-recipe").innerHTML = `<p>Aucune recette ne correspond à votre critère...
      Vous pouvez chercher &laquo; tarte aux pommes &raquo;, &laquo; poisson &raquo;, etc.</p >`;
+    tagRemove();
     document.querySelector(".ingredients-selection").style.display = "none";
     document.querySelector(".appliances-selection").style.display = "none";
     document.querySelector(".ustensils-selection").style.display = "none";
 }
-
 
 // When recipes not empty
 function notEmptyRecipe() {
@@ -181,6 +180,20 @@ function formatIngredients(ingredients, div2) {
         ${ingredient.quantity}${ingredient.unit}</span>`;
         div2.appendChild(p);
     }
+}
+
+function formatDescription(description, div3) {
+    const p1 = document.createElement('p');
+    if (description.length > 350) {
+        description = description.substring(0, 182);
+        p1.innerHTML = `${description} ...`;
+    } else if (description.length > 260) {
+        description = description.substring(0, 210);
+        p1.innerHTML = `${description} ...`;
+    } else {
+        p1.innerHTML = `${description}`;
+    }
+    div3.appendChild(p1);
 }
 
 // Remove duplicate ingredients
@@ -243,7 +256,7 @@ function ingredientTagDisplay(item) {
     div.appendChild(div2);
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".ingredient-tag-close").forEach((item1) => item1.addEventListener("click", function (e) {
-        tagClose();
+        recipeInit();
     }))
 }
 
@@ -304,7 +317,7 @@ function applianceTagDisplay(item) {
     div.appendChild(div2);
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".appliance-close-tag").forEach((item2) => item2.addEventListener("click", function (e) {
-        tagClose();
+        recipeInit();
     }))
 }
 
@@ -371,21 +384,13 @@ function ustensilTagDisplay(item) {
     div.appendChild(div2);
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".ustensil-tag-close").forEach((item3) => item3.addEventListener("click", function (e) {
-        tagClose();
+        recipeInit();
     }))
 }
 
 // Close tags and initialize the fields
-function tagClose() {
-    document.querySelectorAll(".ingredient-tag").forEach(item => {
-        item.remove();
-    });
-    document.querySelectorAll(".appliance-tag").forEach(item => {
-        item.remove();
-    })
-    document.querySelectorAll(".ustensil-tag").forEach(item => {
-        item.remove();
-    })
+function recipeInit() {
+    tagRemove();
     ingTab = [];
     appTab = [];
     ustTab = [];
@@ -397,11 +402,23 @@ function tagClose() {
     removeRecipes(recipes);
 }
 
+// Close all tags
+function tagRemove() {
+    document.querySelectorAll(".ingredient-tag").forEach(item => {
+        item.remove();
+    });
+    document.querySelectorAll(".appliance-tag").forEach(item => {
+        item.remove();
+    })
+    document.querySelectorAll(".ustensil-tag").forEach(item => {
+        item.remove();
+    })
+}
 
 export {
     removeRecipes, uniqueIngredients, uniqueAppliances,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    uniqueUstensils, ustensilsSecondarySearchDisplay, tagClose
+    uniqueUstensils, ustensilsSecondarySearchDisplay, recipeInit
 };
 
 

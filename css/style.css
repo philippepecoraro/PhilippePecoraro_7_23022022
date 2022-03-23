@@ -1,5 +1,4 @@
-main {
-   border: 1px black solid;    
+main {    
    max-width: 1240px;  
 }
 .logo-title h1 {
@@ -51,7 +50,6 @@ input:focus {
     background-color: #E7E7E7;
 }
 .ingredients-selection, .appliances-selection, .ustensils-selection {   
-  
     width: 170px;
     height: 70px;     
     margin-left: 15px;
@@ -214,14 +212,17 @@ input:focus {
     margin-bottom: 5px;
 }
 .ingredient-tag, .appliance-tag, .ustensil-tag {   
+    display: flex;
+    justify-content: center;
+    align-items: center;
     color: #FFFFFF;
     background-color:#3282F7; 
     margin-bottom: 20px;
     border-radius: 5px; 
-    width: 170px; 
-    min-height: 50px;
+    width: 170px;   
+    min-height: 60px;   
     padding-left: 20px;
-    position: relative;
+    padding-right: 20px;  
 }
 .ingredient-tag, .appliance-tag, .ustensil-tag {
     margin-right: 20px;
@@ -232,8 +233,7 @@ input:focus {
     margin-bottom: 20px;
     border-radius: 5px; 
     width: auto; 
-    min-height: 50px;   
-    position: relative;
+    min-height: 50px;      
     padding: 0;
     margin: 0;
 }
@@ -244,26 +244,24 @@ input:focus {
     background-color: #ED6454;
 }
 .ingredient-value, .appliance-value, .ustensil-value {
+    display: flex;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 14px; 
-    position: absolute;
-    top: 14px;
-    left: 20px;
+    width: auto;
+    width: 150px;
+    justify-content: center;
+    align-items: baseline;
 }
-.ingredient-close, .appliance-close, .ustensil-close {  
-    position: absolute;
-    top: 10px;
-    right: 20px;
-    cursor: pointer;  
+.ingredient-close, .appliance-close, .ustensil-close {   
+    cursor: pointer;     
 }
-[role="option"] {
+/*[role="option"] {
     height: 40px;
     padding-top: 18px;   
     padding-left: 20px;     
-}
-.col-card {  
-   border: green 1px solid;
+}*/
+.col-card {    
    padding: 0; 
    margin-bottom: 50px;
 }
@@ -281,8 +279,7 @@ input:focus {
 }
 .image-card {
     width: 380px;
-    height: 180px;
-    border: 1px black solid;
+    height: 180px;   
     border-top-left-radius: 5px ;
     border-top-right-radius: 5px ;
     background-color: #C7BEBE;
@@ -290,17 +287,17 @@ input:focus {
 .card-body {
     width: 380px;
     height: 185px;
-    border: 1px black solid;
     border-bottom-left-radius: 5px ;
     border-bottom-right-radius: 5px ;
     padding: 0;
     background-color: #E7E7E7;
+    position: relative;
 }
 .card-title {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
     font-size: 18px;
-    line-height: 20px;
+    line-height: 21px;
     margin: 20px 0 20px 30px;
     max-width: 230px; 
 }
@@ -311,6 +308,7 @@ input:focus {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
     font-size: 18px;
+    line-height: 21px;
     margin-right: 30px;  
 }
 .time-card p {
@@ -319,38 +317,31 @@ input:focus {
 .text-created p {
     margin: 0;
 }
-.text-left-card {  
-    margin-left: 30px;
-    max-width: 170px;   
-    max-height: 110px;
-}
-.text-left-card p {
+.text-left-card  {
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 12px;
-    font-size: 12px;
+    font-size: 12px;   
     margin: 0;
     line-height: 14px;
+    max-width: 170px;
+    position: absolute;   
+    left: 15px;
+}
+.text-left-card  p {
+    margin: 0;
 }
 .text-left-card p span {
-    font-weight: 400;
+    font-weight: 400;    
 }
-.text-right-card p {
+.text-right-card  {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 12px;
     line-height: 12px;
     max-width: 172px;     
-    max-height: 109px;  
-    margin-left: 35px;   
-    overflow: hidden;
-    position: relative; 
-}
-.text-right-card p::after {
-    content: "...";
-    position: absolute;
-    bottom: 0;
-    right: 0; 
+    position: absolute; 
+    top: 60px;   
+    right: 17px; 
 }
 @media (max-width: 575.98px) {     
     .col-card,

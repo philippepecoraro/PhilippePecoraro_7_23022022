@@ -1,7 +1,7 @@
 import {
     removeRecipes, uniqueIngredients, uniqueAppliances, uniqueUstensils,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    ustensilsSecondarySearchDisplay, tagClose
+    ustensilsSecondarySearchDisplay, recipeInit
 } from "../scripts/index.js"
 import { recipes } from "../data/recipes.js";
 
@@ -137,7 +137,7 @@ searchBar.addEventListener("input", () => {
     if (searchBar.value.length > 2) {
         principalSearch()
     } if (searchBar.value.length === 0) {
-        tagClose();
+        recipeInit();
     }
 })
 
