@@ -256,11 +256,6 @@ input:focus {
 .ingredient-close, .appliance-close, .ustensil-close {   
     cursor: pointer;     
 }
-/*[role="option"] {
-    height: 40px;
-    padding-top: 18px;   
-    padding-left: 20px;     
-}*/
 .col-card {    
    padding: 0; 
    margin-bottom: 50px;
@@ -271,6 +266,7 @@ input:focus {
 .empty-recipe {
     display: none;
     text-align: center;   
+    margin-bottom: 30px;
 }
 .empty-recipe p {  
    font-size: 24px;

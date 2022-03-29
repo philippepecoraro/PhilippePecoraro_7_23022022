@@ -88,7 +88,7 @@ appliancesPrincipalSearchDisplay(appTab, recipesData);
 ustensilsPrincipalSearchDisplay(ustTab, recipesData);
 
 // Remove recipes data and call recipes display functions
-function removeRecipes(recipesData, elemt, nb) {
+function removeRecipes(searchTab, elemt, nb) {
     switch (nb) {
         case 1:
             ingTab.push(elemt.value);
@@ -121,12 +121,12 @@ function removeRecipes(recipesData, elemt, nb) {
     appliancesTab = [];
     ustensilsTab = [];
     ustensilsTab2 = [];
-    if (recipesData.length > 0) {
+    if (searchTab.length > 0) {
         notEmptyRecipe();
-        recipesDisplay(recipesData);
-        ingredientsPrincipalSearchDisplay(ingTab, recipesData)
-        appliancesPrincipalSearchDisplay(appTab, recipesData);
-        ustensilsPrincipalSearchDisplay(ustTab, recipesData);
+        recipesDisplay(searchTab);
+        ingredientsPrincipalSearchDisplay(ingTab, searchTab)
+        appliancesPrincipalSearchDisplay(appTab, searchTab);
+        ustensilsPrincipalSearchDisplay(ustTab, searchTab);
     } else {
         emptyRecipeDisplay();
     }
@@ -137,7 +137,6 @@ function emptyRecipeDisplay() {
     document.querySelector(".empty-recipe").style.display = "block";
     document.querySelector(".empty-recipe").innerHTML = `<p>Aucune recette ne correspond à votre critère...
      Vous pouvez chercher &laquo; tarte aux pommes &raquo;, &laquo; poisson &raquo;, etc.</p >`;
-    tagRemove();
     document.querySelector(".ingredients-selection").style.display = "none";
     document.querySelector(".appliances-selection").style.display = "none";
     document.querySelector(".ustensils-selection").style.display = "none";
@@ -181,7 +180,7 @@ function formatIngredients(ingredients, div2) {
         div2.appendChild(p);
     }
 }
-
+// formating description in recipes
 function formatDescription(description, div3) {
     const p1 = document.createElement('p');
     if (description.length > 350) {
@@ -254,9 +253,11 @@ function ingredientTagDisplay(item) {
     tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
+    searchBar2.value = "";
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".ingredient-tag-close").forEach((item1) => item1.addEventListener("click", function (e) {
         recipeInit();
+        tagRemove();
     }))
 }
 
@@ -315,9 +316,11 @@ function applianceTagDisplay(item) {
     tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
+    searchBar3.value = "";
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".appliance-close-tag").forEach((item2) => item2.addEventListener("click", function (e) {
         recipeInit();
+        tagRemove();
     }))
 }
 
@@ -382,15 +385,16 @@ function ustensilTagDisplay(item) {
     tagsDisplay.appendChild(div);
     div.appendChild(div1);
     div.appendChild(div2);
+    searchBar4.value = "";
     document.querySelector(".tags-display").style.display = "flex";
     document.querySelectorAll(".ustensil-tag-close").forEach((item3) => item3.addEventListener("click", function (e) {
         recipeInit();
+        tagRemove();
     }))
 }
 
 // Close tags and initialize the fields
 function recipeInit() {
-    tagRemove();
     ingTab = [];
     appTab = [];
     ustTab = [];
@@ -398,7 +402,6 @@ function recipeInit() {
     searchBar2.value = "";
     searchBar3.value = "";
     searchBar4.value = "";
-    document.querySelector(".tags-display").style.display = "none";
     removeRecipes(recipes);
 }
 
@@ -413,12 +416,13 @@ function tagRemove() {
     document.querySelectorAll(".ustensil-tag").forEach(item => {
         item.remove();
     })
+    document.querySelector(".tags-display").style.display = "none";
 }
 
 export {
     removeRecipes, uniqueIngredients, uniqueAppliances,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    uniqueUstensils, ustensilsSecondarySearchDisplay, recipeInit
+    uniqueUstensils, ustensilsSecondarySearchDisplay, recipeInit, tagRemove
 };
 
 

@@ -1,11 +1,10 @@
 import {
     removeRecipes, uniqueIngredients, uniqueAppliances, uniqueUstensils,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    ustensilsSecondarySearchDisplay, recipeInit
+    ustensilsSecondarySearchDisplay, recipeInit, tagRemove
 } from "../scripts/index.js"
 import { recipes } from "../data/recipes.js";
 
-const recipesData = recipes;
 const ingredientsSelect = document.querySelector(".ingredients-select");
 const appliancesSelect = document.querySelector(".appliances-select");
 const ustensilsSelect = document.querySelector(".ustensils-select")
@@ -19,7 +18,6 @@ const ingredientsDropdownClose = document.querySelector(".ingredients-dropdown-c
 const appliancesDropdownClose = document.querySelector(".appliances-dropdown-close");
 const ustensilsDropdownClose = document.querySelector(".ustensils-dropdown-close");
 const appliancesSelection = document.querySelector(".appliances-selection");
-const searchBarBar = document.querySelector(".search-bar-bar");
 const searchBar = document.querySelector("#searchbar");
 let sortedIngredient = [];
 let sortedAppliance = [];
@@ -27,8 +25,7 @@ let sortedUstensil = [];
 let ingredientRecipesAfterSortTab = [];
 let applianceRecipesAfterSortTab = [];
 let ustensilRecipesAfterSortTab = [];
-const searchIcon = document.querySelector(".search-icon");
-const ingredientsSearchBar = document.querySelector(".ingredients-search-bar");
+let searchFinalTab = [];
 const ustensilsSelection = document.querySelector(".ustensils-selection");
 
 
@@ -114,9 +111,9 @@ ustensilsDropdownClose.addEventListener("click", dropdownUstensilsMenuClose)
 
 // Principal search
 let principalSearchTab = [];
-function principalSearch() {
+function principalSearch(recipes) {
     principalSearchTab = [];
-    recipesData.map(recipe => {
+    recipes.map(recipe => {
         if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
             principalSearchTab.push(recipe);
         }
@@ -132,14 +129,26 @@ function principalSearch() {
     })
     removeRecipes(principalSearchTab);
 }
-// Listener on principal search bar
+
+// listener on principal search bar
 searchBar.addEventListener("input", () => {
-    if (searchBar.value.length > 2) {
-        principalSearch()
-    } if (searchBar.value.length === 0) {
+    if (searchBar.value.length > 2 && searchFinalTab.length === 0) {
+        principalSearch(recipes)
+    } else if (searchBar.value.length > 2 && searchFinalTab.length > 0) {
+        principalSearch(searchFinalTab)
+    }
+    if (searchBar.value.length === 0) {
         recipeInit();
+        tagRemove();
+        searchFinalTab = [];
     }
 })
+
+// Final array of recipes
+function finalRecipes(searchTab, item, nb) {
+    searchFinalTab = searchTab;
+    removeRecipes(searchTab, item, nb);
+}
 
 // Ingredients search
 let ingredientSearchTab = [];
@@ -157,6 +166,10 @@ const searchBar2 = document.querySelector("#searchbar2");
 searchBar2.addEventListener("input", () => {
     if (searchBar2.value.length > 2) {
         ingredientSearch(principalSearchTab);
+    }
+    if (searchBar2.value.length === 0) {
+        recipeInit();
+        tagRemove();
     }
 })
 
@@ -177,6 +190,10 @@ searchBar3.addEventListener("input", () => {
     if (searchBar3.value.length > 2) {
         applianceSearch();
     }
+    if (searchBar3.value.length === 0) {
+        recipeInit();
+        tagRemove();
+    }
 })
 
 // Ustensils search
@@ -195,6 +212,10 @@ const searchBar4 = document.querySelector("#searchbar4");
 searchBar4.addEventListener("input", () => {
     if (searchBar4.value.length > 2) {
         ustensilSearch();
+    }
+    if (searchBar4.value.length === 0) {
+        recipeInit();
+        tagRemove();
     }
 })
 
@@ -218,7 +239,7 @@ function ingredientSortedArray(recipesData, item) {
             })
         }
     })
-    removeRecipes(ingredientRecipesAfterSortTab, item, 1);
+    finalRecipes(ingredientRecipesAfterSortTab, item, 1);
 }
 
 // Sort for appliances tag
@@ -239,8 +260,9 @@ function applianceSortedArray(recipesData, item) {
             })
         }
     })
-    removeRecipes(applianceRecipesAfterSortTab, item, 2);
+    finalRecipes(applianceRecipesAfterSortTab, item, 2);
 }
+
 // Sort for ustensils tag
 function ustensilSortedArray(recipesData, item) {
     ustensilRecipesAfterSortTab = [];
@@ -261,7 +283,7 @@ function ustensilSortedArray(recipesData, item) {
             })
         }
     })
-    removeRecipes(ustensilRecipesAfterSortTab, item, 3);
+    finalRecipes(ustensilRecipesAfterSortTab, item, 3);
 }
 
 export {
