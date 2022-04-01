@@ -140,10 +140,10 @@ searchBar.addEventListener("input", () => {
     }
 })
 // Final array of recipes
-let tab = [];
+let searchFinalTab2 = [];
 function finalRecipes(searchTab, item, nb) {
     searchFinalTab = searchTab;
-    tab = searchTab;
+    searchFinalTab2 = searchTab;
     removeRecipes(searchTab, item, nb);
 }
 // Ingredients search
@@ -155,7 +155,7 @@ function ingredientSearch() {
             ingredientSearchTab.push(ingredient);
         }
     })
-    ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab, tab);
+    ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab, searchFinalTab2);
 }
 // Listener on ingredient field
 const searchBar2 = document.querySelector("#searchbar2");
@@ -178,7 +178,7 @@ function applianceSearch() {
             applianceSearchTab.push(appliance);
         }
     })
-    appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab, tab);
+    appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab, searchFinalTab2);
 }
 // Listener on appliance field
 const searchBar3 = document.querySelector("#searchbar3");
@@ -201,7 +201,7 @@ function ustensilSearch() {
             ustensilSearchTab.push(ustensil);
         }
     })
-    ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab, tab);
+    ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab, searchFinalTab2);
 }
 // Listener on ustensil field
 const searchBar4 = document.querySelector("#searchbar4");
@@ -264,5 +264,11 @@ function sortingRecipeElements(recipesData, item, nb) {
         finalRecipes(recipesAfterSortTab, item, 3);
     }
 }
+function removeElements() {
+    principalSearchTab = [];
+    searchFinalTab = [];
+    searchFinalTab2 = [];
 
-export { sortingRecipeElements };
+}
+
+export { sortingRecipeElements, removeElements };

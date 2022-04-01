@@ -1,6 +1,6 @@
 import { recipes } from "../data/recipes.js";
 import {
-    sortingRecipeElements
+    sortingRecipeElements, removeElements
 } from "../scripts/search.js";
 
 const recipesData = recipes;
@@ -9,6 +9,7 @@ const card1 = document.querySelectorAll(".col-card");
 let ingredientsTab = [];
 let uniqueIngredients = [];
 let appliancesTab = [];
+let appliancesTab2 = [];
 let uniqueAppliances = [];
 let ustensilsTab = [];
 let ustensilsTab2 = [];
@@ -108,6 +109,7 @@ function removeRecipes(searchTab, elemt, nb) {
     ingredientsTab = [];
     appliancesTab = [];
     ustensilsTab = [];
+    appliancesTab2 = [];
     ustensilsTab2 = [];
     if (searchTab.length > 0) {
         notEmptyRecipe();
@@ -147,8 +149,6 @@ function recipesDisplay(recipesData) {
 // formating ingrédients in recipes
 function formatIngredients(ingredients, div2) {
     for (let ingredient of ingredients) {
-        ingredientsTab.push(ingredient.ingredient);
-
         if (ingredient.quantity === undefined) {
             ingredient.quantity = "";
         }
@@ -165,6 +165,38 @@ function formatIngredients(ingredients, div2) {
         if (ingredient.unit === "grammes") {
             ingredient.unit = "g";
         }
+        if (ingredient.ingredient === "Lait de Coco") {
+            ingredient.ingredient = "Lait de coco";
+        }
+        if (ingredient.ingredient === "Crème Fraiche") {
+            ingredient.ingredient = "Crème fraiche";
+        }
+        if (ingredient.ingredient === "Crème Fraîche") {
+            ingredient.ingredient = "Crème fraîche";
+        }
+        if (ingredient.ingredient === "Sucre en Poudre") {
+            ingredient.ingredient = "Sucre en poudre";
+        }
+        if (ingredient.ingredient === "Coulis de tomates") {
+            ingredient.ingredient = "Coulis de tomate";
+        }
+        if (ingredient.ingredient === "huile d'olive" || ingredient.ingredient === "huile d'olives"
+            || ingredient.ingredient === "Huile d'olives") {
+            ingredient.ingredient = "Huile d'olive";
+        }
+        if (ingredient.ingredient === "Pommes") {
+            ingredient.ingredient = "Pomme";
+        }
+        if (ingredient.ingredient === "farine") {
+            ingredient.ingredient = "Farine";
+        }
+        if (ingredient.ingredient === "Bananes") {
+            ingredient.ingredient = "Banane";
+        }
+        if (ingredient.ingredient === "Kiwis") {
+            ingredient.ingredient = "Kiwi";
+        }
+        ingredientsTab.push(ingredient.ingredient);
         const p = document.createElement('p');
         p.innerHTML = `${ingredient.ingredient}:<span>
         ${ingredient.quantity}${ingredient.unit}</span>`;
@@ -252,12 +284,18 @@ function ingredientTagDisplay(item) {
 
 // Remove duplicate appliances
 function appliancesPrincipalSearchDisplay(appTab, recipesData) {
+    for (let appliancesValue of appliancesTab) {
+        if (appliancesValue === "Casserolle.") {
+            appliancesValue = "Casserolle";
+        }
+        appliancesTab2.push(appliancesValue);
+    }
     if (appTab.length > 0) {
         appTab.forEach(elem => {
-            appliancesTab = appliancesTab.filter(ele => ele !== elem);
+            appliancesTab2 = appliancesTab2.filter(ele => ele !== elem);
         })
     }
-    uniqueAppliances = [...new Set(appliancesTab)];
+    uniqueAppliances = [...new Set(appliancesTab2)];
     appliancesDisplay(uniqueAppliances, recipesData);
 }
 // Remove appliances after secondary Search
@@ -317,6 +355,20 @@ function applianceTagDisplay(item) {
 function ustensilsPrincipalSearchDisplay(ustTab, recipesData) {
     for (let ustensilsValue of ustensilsTab) {
         for (let ustensilValue of ustensilsValue) {
+            if (ustensilValue === "Cuillère à Soupe" || ustensilValue === "cuillère à Soupe") {
+                ustensilValue = "cuillère à soupe";
+            }
+            if (ustensilValue === "Couteau") {
+                ustensilValue = "couteau";
+            }
+            if (ustensilValue === "Cuillère en bois") {
+                ustensilValue = "cuillère en bois";
+            }
+            if (ustensilValue === "Économe") {
+                ustensilValue = "économe";
+            } if (ustensilValue === "Poelle à frire") {
+                ustensilValue = "poelle à frire";
+            }
             ustensilsTab2.push(ustensilValue);
         }
     }
@@ -410,6 +462,7 @@ function recipeInit() {
     searchBar3.value = "";
     searchBar4.value = "";
     removeRecipes(recipes);
+    removeElements();
 }
 
 // Close all tags
