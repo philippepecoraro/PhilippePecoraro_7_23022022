@@ -344,11 +344,16 @@ input:focus {
     .image-card,
     .card-body {
     margin: auto;  
-    padding: 0; 
-    border: #D04F4F 1px solid;    
+    padding: 0;     
+  /*  width: auto;  */
     }
     .btn {
         display: none;
+    }
+}
+@media (max-width: 575.98px) {
+    .col-card {
+        margin-bottom: 20px;
     }
 }
 @media (min-width: 576px) {
@@ -356,6 +361,31 @@ input:focus {
         width: 95%;
     }
 }
-
+@media (max-width: 420px) {
+    .image-card,
+    .card-body {
+        width: auto;        
+    }
+}
+@media (max-width: 420px) {
+    .time-card,
+    .text-right-card {
+        display: none;
+    }
+}
+@media (max-width: 420px) {   
+    .card-title  
+     {           
+      margin: 20px auto;
+      text-align: center;     
+    }
+}
+@media (max-width: 420px) {
+    .text-left-card {   
+      position: initial;    
+      margin: auto;
+      text-align: center;       
+    }
+}
 
 

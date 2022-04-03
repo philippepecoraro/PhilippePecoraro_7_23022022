@@ -5,7 +5,6 @@ import {
 
 const recipesData = recipes;
 const cardDeck = document.querySelector(".card-deck");
-const card1 = document.querySelectorAll(".col-card");
 let ingredientsTab = [];
 let uniqueIngredients = [];
 let appliancesTab = [];
@@ -26,7 +25,7 @@ const tagsDisplay = document.querySelector(".tags-display");
 
 // Recipes construct
 function recipesFactory(data) {
-    const { id, name, servings, ingredients,
+    const { name, ingredients,
         time, description, appliance, ustensils } = data;
     appliancesTab.push(appliance);
     ustensilsTab.push(ustensils);
