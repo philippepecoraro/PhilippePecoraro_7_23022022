@@ -109,20 +109,20 @@ ustensilsDropdownClose.addEventListener("click", dropdownUstensilsMenuClose)
 let principalSearchTab = [];
 function principalSearch(recipes) {
     principalSearchTab = [];
-    recipes.map(recipe => {
+    for (let recipe of recipes) {
         if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
             principalSearchTab.push(recipe);
         }
         else if (recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
             principalSearchTab.push(recipe);
         } else {
-            recipe.ingredients.forEach(value => {
-                if (value.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+            for (let ingredient of recipe.ingredients) {
+                if (ingredient.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
                     principalSearchTab.push(recipe);
                 }
-            })
+            }
         }
-    })
+    }
     removeRecipes(principalSearchTab);
 }
 
