@@ -229,13 +229,13 @@ function ingredientsPrincipalSearchDisplay(ingTab, recipesData) {
 }
 
 // Remove ingredients after secondary Search
-function ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab, tab) {
+function ingredientsSecondarySearchDisplay(ingredientSearchTab, recipes, tab) {
     ingredientRemove();
     if (tab.length > 0) {
         ingredientsDisplay(ingredientSearchTab, tab);
     }
-    else if (principalSearchTab.length > 0) {
-        ingredientsDisplay(ingredientSearchTab, principalSearchTab);
+    else if (recipes.length > 0) {
+        ingredientsDisplay(ingredientSearchTab, recipes);
     } else {
         ingredientsDisplay(ingredientSearchTab, recipesData);
     }
@@ -298,13 +298,13 @@ function appliancesPrincipalSearchDisplay(appTab, recipesData) {
     appliancesDisplay(uniqueAppliances, recipesData);
 }
 // Remove appliances after secondary Search
-function appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab, tab) {
+function appliancesSecondarySearchDisplay(applianceSearchTab, recipes, tab) {
     applianceRemove();
     if (tab.length > 0) {
         appliancesDisplay(applianceSearchTab, tab);
     }
-    else if (principalSearchTab.length > 0) {
-        appliancesDisplay(applianceSearchTab, principalSearchTab);
+    else if (recipes.length > 0) {
+        appliancesDisplay(applianceSearchTab, recipes);
     } else {
         appliancesDisplay(applianceSearchTab, recipesData);
     }
@@ -381,13 +381,13 @@ function ustensilsPrincipalSearchDisplay(ustTab, recipesData) {
 }
 
 // Remove ustensils after secondary Search
-function ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab, tab) {
+function ustensilsSecondarySearchDisplay(ustensilSearchTab, recipes, tab) {
     ustensilRemove();
     if (tab.length > 0) {
         ustensilsDisplay(ustensilSearchTab, tab);
     }
-    else if (principalSearchTab.length > 0) {
-        ustensilsDisplay(ustensilSearchTab, principalSearchTab);
+    else if (recipes.length > 0) {
+        ustensilsDisplay(ustensilSearchTab, recipes);
     } else {
         ustensilsDisplay(ustensilSearchTab, recipesData);
     }

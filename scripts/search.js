@@ -106,24 +106,12 @@ function dropdownUstensilsMenuClose(e) {
 ustensilsDropdownClose.addEventListener("click", dropdownUstensilsMenuClose)
 
 // Principal search
-let principalSearchTab = [];
 function principalSearch(recipes) {
-    principalSearchTab = [];
-    for (let recipe of recipes) {
-        if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
-            principalSearchTab.push(recipe);
-        }
-        else if (recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
-            principalSearchTab.push(recipe);
-        } else {
-            for (let ingredient of recipe.ingredients) {
-                if (ingredient.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
-                    principalSearchTab.push(recipe);
-                }
-            }
-        }
-    }
-    removeRecipes(principalSearchTab);
+    recipes = recipes.filter(recipe => recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1
+        || recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1
+        || recipe.ingredients.filter(ingredient => ingredient.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1).length > 0);
+
+    removeRecipes(recipes);
 }
 
 // listener on principal search bar
@@ -155,7 +143,7 @@ function ingredientSearch() {
             ingredientSearchTab.push(ingredient);
         }
     })
-    ingredientsSecondarySearchDisplay(ingredientSearchTab, principalSearchTab, searchFinalTab2);
+    ingredientsSecondarySearchDisplay(ingredientSearchTab, recipes, searchFinalTab2);
 }
 // Listener on ingredient field
 const searchBar2 = document.querySelector("#searchbar2");
@@ -178,7 +166,7 @@ function applianceSearch() {
             applianceSearchTab.push(appliance);
         }
     })
-    appliancesSecondarySearchDisplay(applianceSearchTab, principalSearchTab, searchFinalTab2);
+    appliancesSecondarySearchDisplay(applianceSearchTab, recipes, searchFinalTab2);
 }
 // Listener on appliance field
 const searchBar3 = document.querySelector("#searchbar3");
@@ -201,7 +189,7 @@ function ustensilSearch() {
             ustensilSearchTab.push(ustensil);
         }
     })
-    ustensilsSecondarySearchDisplay(ustensilSearchTab, principalSearchTab, searchFinalTab2);
+    ustensilsSecondarySearchDisplay(ustensilSearchTab, recipes, searchFinalTab2);
 }
 // Listener on ustensil field
 const searchBar4 = document.querySelector("#searchbar4");
@@ -265,10 +253,8 @@ function sortingRecipeElements(recipesData, item, nb) {
     }
 }
 function removeElements() {
-    principalSearchTab = [];
     searchFinalTab = [];
     searchFinalTab2 = [];
-
 }
 
 export { sortingRecipeElements, removeElements };
