@@ -19,9 +19,10 @@ const appliancesDropdownClose = document.querySelector(".appliances-dropdown-clo
 const ustensilsDropdownClose = document.querySelector(".ustensils-dropdown-close");
 const appliancesSelection = document.querySelector(".appliances-selection");
 const searchBar = document.querySelector("#searchbar");
-let sorted = [];
-let recipesAfterSortTab = [];
 let searchFinalTab = [];
+let ingredientSearchTab = [];
+let applianceSearchTab = [];
+let ustensilSearchTab = [];
 const ustensilsSelection = document.querySelector(".ustensils-selection");
 
 
@@ -126,12 +127,11 @@ function principalSearch(recipes) {
     removeRecipes(principalSearchTab);
 }
 
-// listener on principal search bar
 searchBar.addEventListener("input", () => {
     if (searchBar.value.length > 2 && searchFinalTab.length === 0) {
-        principalSearch(recipes)
+        principalSearch(recipes);
     } else if (searchBar.value.length > 2 && searchFinalTab.length > 0) {
-        principalSearch(searchFinalTab)
+        principalSearch(searchFinalTab);
     }
     if (searchBar.value.length === 0) {
         recipeInit();
@@ -139,15 +139,16 @@ searchBar.addEventListener("input", () => {
         searchFinalTab = [];
     }
 })
+
 // Final array of recipes
 let searchFinalTab2 = [];
-function finalRecipes(searchTab, item, nb) {
-    searchFinalTab = searchTab;
-    searchFinalTab2 = searchTab;
-    removeRecipes(searchTab, item, nb);
+function finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances) {
+    searchFinalTab = filteredRecipes;
+    searchFinalTab2 = filteredRecipes;
+    removeRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances);
 }
+
 // Ingredients search
-let ingredientSearchTab = [];
 function ingredientSearch() {
     ingredientSearchTab = [];
     uniqueIngredients.map(ingredient => {
@@ -160,17 +161,12 @@ function ingredientSearch() {
 // Listener on ingredient field
 const searchBar2 = document.querySelector("#searchbar2");
 searchBar2.addEventListener("input", () => {
-    if (searchBar2.value.length > 2) {
+    if (searchBar2.value.length > 2 || searchBar2.value.length === 0) {
         ingredientSearch();
-    }
-    if (searchBar2.value.length === 0) {
-        recipeInit();
-        tagRemove();
     }
 })
 
 // Appliances search
-let applianceSearchTab = [];
 function applianceSearch() {
     applianceSearchTab = [];
     uniqueAppliances.map(appliance => {
@@ -183,17 +179,12 @@ function applianceSearch() {
 // Listener on appliance field
 const searchBar3 = document.querySelector("#searchbar3");
 searchBar3.addEventListener("input", () => {
-    if (searchBar3.value.length > 2) {
+    if (searchBar3.value.length > 2 || searchBar3.value.length === 0) {
         applianceSearch();
-    }
-    if (searchBar3.value.length === 0) {
-        recipeInit();
-        tagRemove();
     }
 })
 
 // Ustensils search
-let ustensilSearchTab = [];
 function ustensilSearch() {
     ustensilSearchTab = [];
     uniqueUstensils.map(ustensil => {
@@ -206,68 +197,46 @@ function ustensilSearch() {
 // Listener on ustensil field
 const searchBar4 = document.querySelector("#searchbar4");
 searchBar4.addEventListener("input", () => {
-    if (searchBar4.value.length > 2) {
+    if (searchBar4.value.length > 2 || searchBar4.value.length === 0) {
         ustensilSearch();
-    }
-    if (searchBar4.value.length === 0) {
-        recipeInit();
-        tagRemove();
     }
 })
 
-// Sort recipes by id
-function recipeById(recipesData) {
-    sorted.forEach(item => {
-        if (!isNaN(item)) {
-            recipesData.forEach(value => {
-                if (value.id === item) {
-                    recipesAfterSortTab.push(value)
-                }
-            })
+function filterByTags(filteredRecipes, ingredients, appliance, ustensils) {
+    if (ingredients.length === 0 && appliance === "" && ustensils.length === 0 && principalSearchTab.length > 0) {
+        filteredRecipes = principalSearchTab;
+    }
+    filteredRecipes = filteredRecipes.filter(recipe =>
+        recipe.ingredients
+            .map(i => i.ingredient)
+            .filter(ingredient => ingredients.indexOf(ingredient) >= 0).length === ingredients.length
+        && recipe.ustensils
+            .filter(ustensil => ustensils.toString().toLowerCase().indexOf(ustensil.toLowerCase()) >= 0).length === ustensils.length
+        && (appliance === "" || recipe.appliance === appliance));
+    const availableIngredients = filteredRecipes.reduce((acc, recipe) => {
+        acc = acc.concat(recipe.ingredients.map(ingredient => ingredient.ingredient)
+            .filter(ingredient => ingredients.indexOf(ingredient) === -1));
+        return acc;
+    }, []);
+    const availableUstensils = filteredRecipes.reduce((acc, recipe) => {
+        acc = acc.concat(recipe.ustensils.filter(ustensil => ustensils.indexOf(ustensil.toLowerCase()) === -1));
+        return acc;
+    }, []);
+    const availableAppliances = filteredRecipes.reduce((acc, recipe) => {
+        if (recipe.appliance !== appliance) {
+            acc.push(recipe.appliance);
         }
-    })
+        return acc;
+    }, []);
+    finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances);
 }
 
-// Sorting recipes elements
-function sortingRecipeElements(recipesData, item, nb) {
-    recipesAfterSortTab = [];
-    sorted = [];
-    if (nb === 1) {
-        recipesData.map(recipe => {
-            recipe.ingredients.forEach(value => {
-                if (value.ingredient.toLowerCase().lastIndexOf(item.value.toLowerCase()) !== -1) {
-                    sorted.push(value.ingredient, recipe.id)
-                }
-            })
-        })
-        recipeById(recipesData);
-        finalRecipes(recipesAfterSortTab, item, 1);
-    }
-    if (nb === 2) {
-        recipesData.map(recipe => {
-            if (recipe.appliance.toLowerCase().lastIndexOf(item.value.toLowerCase()) !== -1) {
-                sorted.push(recipe.appliance, recipe.id)
-            }
-        })
-        recipeById(recipesData);
-        finalRecipes(recipesAfterSortTab, item, 2);
-    }
-    if (nb === 3) {
-        recipesData.map(recipe => {
-            recipe.ustensils.forEach(value => {
-                if (value.toLowerCase().lastIndexOf(item.value.toLowerCase()) !== -1) {
-                    sorted.push(value, recipe.id);
-                }
-            })
-        })
-        recipeById(recipesData);
-        finalRecipes(recipesAfterSortTab, item, 3);
-    }
-}
 function removeElements() {
     principalSearchTab = [];
     searchFinalTab = [];
     searchFinalTab2 = [];
 }
 
-export { sortingRecipeElements, removeElements };
+export {
+    removeElements, filterByTags
+};
