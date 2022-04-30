@@ -1,7 +1,7 @@
 import {
     removeRecipes, uniqueIngredients, uniqueAppliances, uniqueUstensils,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    ustensilsSecondarySearchDisplay, recipeInit, tagRemove
+    ustensilsSecondarySearchDisplay, recipeInit, tagRemove, ingredientsTagItem
 } from "../scripts/index.js"
 import { recipes } from "../data/recipes.js";
 
@@ -23,6 +23,12 @@ let searchFinalTab = [];
 let ingredientSearchTab = [];
 let applianceSearchTab = [];
 let ustensilSearchTab = [];
+let availableIngredients2 = [];
+let availableAppliances2 = [];
+let availableUstensils2 = [];
+let ingredients2 = [];
+let appliance2 = [];
+let ustensils2 = [];
 const ustensilsSelection = document.querySelector(".ustensils-selection");
 
 
@@ -130,21 +136,33 @@ function principalSearch(recipes) {
 searchBar.addEventListener("input", () => {
     if (searchBar.value.length > 2 && searchFinalTab.length === 0) {
         principalSearch(recipes);
-    } else if (searchBar.value.length > 2 && searchFinalTab.length > 0) {
+    }
+    else if (searchBar.value.length > 2 && ingredients2.length === 0 && appliance2.length === 0 && ustensils2.length === 0) {
+        principalSearch(recipes);
+    }
+    else if (searchBar.value.length > 2 && searchFinalTab.length > 0) {
         principalSearch(searchFinalTab);
     }
-    if (searchBar.value.length === 0) {
-        recipeInit();
-        tagRemove();
-        searchFinalTab = [];
+    if (searchBar.value.length === 0 && searchFinalTab.length > 0) {
+        principalSearchTab = [];
+        filterByTags(recipes, ingredients2, appliance2, ustensils2);
+    }
+    if (searchBar.value.length === 0 && ingredients2.length === 0 && appliance2.length === 0 && ustensils2.length === 0) {
+        removeRecipes(recipes);
     }
 })
 
 // Final array of recipes
 let searchFinalTab2 = [];
-function finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances) {
+function finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances, ingredients, appliance, ustensils) {
     searchFinalTab = filteredRecipes;
     searchFinalTab2 = filteredRecipes;
+    availableIngredients2 = availableIngredients;
+    availableAppliances2 = availableAppliances;
+    availableUstensils2 = availableUstensils;
+    ingredients2 = ingredients;
+    appliance2 = appliance;
+    ustensils2 = ustensils;
     removeRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances);
 }
 
@@ -228,7 +246,8 @@ function filterByTags(filteredRecipes, ingredients, appliance, ustensils) {
         }
         return acc;
     }, []);
-    finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances);
+    finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances, ingredients, appliance, ustensils);
+
 }
 
 function removeElements() {
