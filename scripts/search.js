@@ -1,7 +1,7 @@
 import {
     removeRecipes, uniqueIngredients, uniqueAppliances, uniqueUstensils,
     ingredientsSecondarySearchDisplay, appliancesSecondarySearchDisplay,
-    ustensilsSecondarySearchDisplay, recipeInit, tagRemove, ingredientsTagItem
+    ustensilsSecondarySearchDisplay
 } from "../scripts/index.js"
 import { recipes } from "../data/recipes.js";
 
@@ -117,14 +117,17 @@ let principalSearchTab = [];
 function principalSearch(recipes) {
     principalSearchTab = [];
     for (let recipe of recipes) {
-        if (recipe.name.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+        if ((recipe.name.toLowerCase()).normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .lastIndexOf(searchBar.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
             principalSearchTab.push(recipe);
         }
-        else if (recipe.description.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+        else if (recipe.description.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .lastIndexOf(searchBar.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
             principalSearchTab.push(recipe);
         } else {
             for (let ingredient of recipe.ingredients) {
-                if (ingredient.ingredient.toLowerCase().lastIndexOf(searchBar.value.toLowerCase()) !== -1) {
+                if (ingredient.ingredient.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                    .lastIndexOf(searchBar.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
                     principalSearchTab.push(recipe);
                 }
             }
@@ -152,7 +155,7 @@ searchBar.addEventListener("input", () => {
     }
 })
 
-// Final array of recipes
+// Final array of recipes and dispatch
 let searchFinalTab2 = [];
 function finalRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances, ingredients, appliance, ustensils) {
     searchFinalTab = filteredRecipes;
@@ -170,7 +173,8 @@ function finalRecipes(filteredRecipes, availableIngredients, availableUstensils,
 function ingredientSearch() {
     ingredientSearchTab = [];
     uniqueIngredients.map(ingredient => {
-        if (ingredient.toLowerCase().lastIndexOf(searchBar2.value.toLowerCase()) !== -1) {
+        if (ingredient.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .lastIndexOf(searchBar2.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
             ingredientSearchTab.push(ingredient);
         }
     })
@@ -188,7 +192,8 @@ searchBar2.addEventListener("input", () => {
 function applianceSearch() {
     applianceSearchTab = [];
     uniqueAppliances.map(appliance => {
-        if (appliance.toLowerCase().lastIndexOf(searchBar3.value.toLowerCase()) !== -1) {
+        if (appliance.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .lastIndexOf(searchBar3.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
             applianceSearchTab.push(appliance);
         }
     })
@@ -206,7 +211,8 @@ searchBar3.addEventListener("input", () => {
 function ustensilSearch() {
     ustensilSearchTab = [];
     uniqueUstensils.map(ustensil => {
-        if (ustensil.toLowerCase().lastIndexOf(searchBar4.value.toLowerCase()) !== -1) {
+        if (ustensil.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .lastIndexOf(searchBar4.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")) !== -1) {
             ustensilSearchTab.push(ustensil);
         }
     })
