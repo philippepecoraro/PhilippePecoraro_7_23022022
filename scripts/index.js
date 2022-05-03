@@ -89,7 +89,6 @@ ustensilsPrincipalSearchDisplay(recipesData);
 
 // Remove recipes data and call recipes display functions
 function removeRecipes(filteredRecipes, availableIngredients, availableUstensils, availableAppliances) {
-    console.log("fonction removeRecipes")
     const card1 = document.querySelectorAll(".col-card");
     card1.forEach(item => {
         item.remove();
@@ -254,7 +253,6 @@ function chooseRecipesForFilter(filteredRecipes, ingredientsTagItem, appliancesT
 
 // Ingredients display
 function ingredientsDisplay(sortedIngredients, filteredRecipes) {
-    console.log("fonction ingredientsDisplay")
     sortedIngredients.forEach(ingredient => {
         const ingredientsMenu = document.querySelector(".ingredients-menu");
         const div = document.createElement("div");
@@ -275,7 +273,6 @@ function ingredientsDisplay(sortedIngredients, filteredRecipes) {
 
 // ingredient tag display
 function ingredientTagDisplay(item, filteredRecipes) {
-    console.log("fonction ingredientTagDisplay")
     const div = document.createElement("div");
     div.className = "ingredient-tag";
     const div1 = document.createElement("div");
@@ -468,7 +465,6 @@ function ustensilsDisplay(sortedUstensils, filteredRecipes) {
 
 // Ustensils tag display
 function ustensilTagDisplay(item, filteredRecipes) {
-    console.log("fonction ustensilTagDisplay")
     const div = document.createElement("div");
     div.className = "ustensil-tag";
     const div1 = document.createElement("div");
