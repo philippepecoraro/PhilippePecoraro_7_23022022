@@ -345,7 +345,6 @@ input:focus {
     .card-body {
     margin: auto;  
     padding: 0;     
-  /*  width: auto;  */
     }
     .btn {
         display: none;
