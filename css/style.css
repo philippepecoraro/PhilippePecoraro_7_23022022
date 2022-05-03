@@ -203,8 +203,7 @@ input:focus {
 	color: inherit;
 	border: none;
 	padding: 0;
-	font: inherit;
-	cursor: pointer;
+	font: inherit;	
 	outline: inherit;
     text-align: left;
 }
@@ -259,6 +258,10 @@ input:focus {
 .col-card {    
    padding: 0; 
    margin-bottom: 50px;
+   cursor: pointer;
+}
+.col-card:hover {
+    border: 2px solid #000000;
 }
 .card-deck {
    margin-top: 25px;
